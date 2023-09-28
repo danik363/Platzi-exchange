@@ -147,17 +147,17 @@ export default {
     },
     min() {
       return Math.min(
-        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(3))
       );
     },
     max() {
       return Math.max(
-        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(3))
       );
     },
     avg() {
       return Math.abs(
-        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(3))
       );
     },
   },
@@ -172,19 +172,17 @@ export default {
   methods: {
     getWebSite(exchange) {
       exchange["isLoading"] = true;
-      console.log(exchange.isLoading);
-      setTimeout(() => {
-        return api
-          .getExchange(exchange.exchangeId)
-          .then((res) => {
-            console.log(res.exchangeUrl);
-            exchange["url"] = res.exchangeUrl;
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => (exchange["isLoading"] = false));
-      }, 4000);
+
+      return api
+        .getExchange(exchange.exchangeId)
+        .then((res) => {
+          console.log(res.exchangeUrl);
+          exchange["url"] = res.exchangeUrl;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => (exchange["isLoading"] = false));
     },
     getCoin() {
       const id = this.$route.params.id;
@@ -198,7 +196,6 @@ export default {
           this.asset = asset;
           this.history = history;
           this.markets = markets;
-          console.log(markets);
         })
         .finally(() => (this.isLoading = false));
     },
